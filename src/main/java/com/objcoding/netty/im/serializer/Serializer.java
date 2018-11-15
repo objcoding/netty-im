@@ -6,6 +6,8 @@ package com.objcoding.netty.im.serializer;
  */
 public interface Serializer {
 
+    Serializer DEFAULT = new JSONSerializer();
+
     /**
      * 序列化算法
      */

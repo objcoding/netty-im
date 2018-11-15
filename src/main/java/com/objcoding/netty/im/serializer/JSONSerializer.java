@@ -1,5 +1,6 @@
 package com.objcoding.netty.im.serializer;
 
+
 import com.alibaba.fastjson.JSON;
 
 /**
