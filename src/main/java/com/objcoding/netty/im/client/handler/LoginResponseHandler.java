@@ -30,16 +30,16 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
         String userName = loginResponsePacket.getUserName();
 
         if (loginResponsePacket.isSuccess()) {
-            log.info("[" + userName + "]登录成功，userId 为: " + loginResponsePacket.getUserId());
+            System.out.println("[" + userName + "]登录成功，userId 为: " + loginResponsePacket.getUserId());
 //            SessionUtil.bindSession(new Session(userId, userName), ctx.channel());
         } else {
-            log.info("[" + userName + "]登录失败，原因：" + loginResponsePacket.getReason());
+            System.out.println("[" + userName + "]登录失败，原因：" + loginResponsePacket.getReason());
         }
 
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        log.info("客户端连接被关闭!");
+        System.out.println("客户端连接被关闭!");
     }
 }

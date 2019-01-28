@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author zhangchenghui.dev@gmail.com
  * @since 2018/11/2
  */
-@Slf4j
 public class NettyServer {
 
     public static void main(String[] args) {
@@ -63,9 +62,9 @@ public class NettyServer {
                 .bind(PORT)
                 .addListener((future) -> {
                     if (future.isSuccess()) {
-                        log.info("端口绑定成功!");
+                        System.out.println("端口绑定成功!");
                     } else {
-                        log.error("端口绑定失败!");
+                        System.out.println("端口绑定失败!");
                     }
                 });
     }

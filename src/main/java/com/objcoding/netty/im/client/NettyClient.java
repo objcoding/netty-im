@@ -2,11 +2,12 @@ package com.objcoding.netty.im.client;
 
 import com.objcoding.netty.im.client.handler.LoginResponseHandler;
 import com.objcoding.netty.im.client.handler.MessageResponseHandler;
-import com.objcoding.netty.im.protocol.*;
-import com.objcoding.netty.im.util.SessionUtil;
-import com.objcoding.netty.im.util.Spliter;
 import com.objcoding.netty.im.codec.PacketDecoder;
 import com.objcoding.netty.im.codec.PacketEncoder;
+import com.objcoding.netty.im.protocol.LoginRequestPacket;
+import com.objcoding.netty.im.protocol.MessageRequestPacket;
+import com.objcoding.netty.im.util.SessionUtil;
+import com.objcoding.netty.im.util.Spliter;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -62,18 +63,18 @@ public class NettyClient {
         bootstrap.connect(host, port)
                 .addListener(future -> {
                     if (future.isSuccess()) {
-                        log.info("连接成功，启动控制台线程……");
+                        System.out.println("连接成功，启动控制台线程……");
                         Channel channel = ((ChannelFuture) future).channel();
                         // 连接成功之后，启动控制台线程
                         startConsoleThread(channel);
                     } else if (retry == 0) {
-                        log.info("重试次数已用完，放弃连接！");
+                        System.out.println("重试次数已用完，放弃连接！");
                     } else {
                         // 第几次重连
                         int order = (MAX_RETRY - retry) + 1;
                         // 本次重连的间隔
                         int delay = 1 << order;
-                        log.info(new Date() + ": 连接失败，第" + order + "次重连……");
+                        System.out.println(new Date() + ": 连接失败，第" + order + "次重连……");
                         bootstrap.config().group().schedule(() -> connect(bootstrap, host, port, retry - 1), delay, TimeUnit.SECONDS);
                     }
                 });

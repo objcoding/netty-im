@@ -6,8 +6,6 @@ import com.objcoding.netty.im.util.SessionUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +14,6 @@ import java.util.concurrent.TimeUnit;
  * @author zhangchenghui.dev@gmail.com
  * @since 2018/11/7
  */
-@Slf4j
-@Service
 public class LoginService {
 
     private static final int MAX_RETRY = 5;
@@ -32,18 +28,18 @@ public class LoginService {
         bootstrap.connect(host, port)
                 .addListener(future -> {
                     if (future.isSuccess()) {
-                        log.info("连接成功，启动控制台线程……");
+                        System.out.println("连接成功，启动控制台线程……");
                         Channel channel = ((ChannelFuture) future).channel();
                         // 连接成功之后, 保存登录session
                          connect(channel, loginRequest);
                     } else if (retry == 0) {
-                        log.info("重试次数已用完，放弃连接！");
+                        System.out.println("重试次数已用完，放弃连接！");
                     } else {
                         // 第几次重连
                         int order = (MAX_RETRY - retry) + 1;
                         // 本次重连的间隔
                         int delay = 1 << order;
-                        log.info(new Date() + ": 连接失败，第" + order + "次重连……");
+                        System.out.println(new Date() + ": 连接失败，第" + order + "次重连……");
                         bootstrap.config().group().schedule(() -> login(bootstrap, loginRequest, host, port, retry - 1), delay, TimeUnit.SECONDS);
                     }
                 });
